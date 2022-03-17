@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Attacks>
+<ID id="2">
+<CATEGORY>Ftp Server</CATEGORY>
+<OS>Windows XP</OS>
+<IP>192.168.1.106</IP>
+<PORT>21</PORT>
+<SCRIPT>FtpAttack.py</SCRIPT>
+</ID>
+<ID id="3">
+<CATEGORY>MidManAttack</CATEGORY>
+<OS>Windows XP</OS>
+<IP>192.168.1.106</IP>
+<PORT>21,502</PORT>
+<SCRIPT>MidManAttack.py</SCRIPT>
+</ID>
+<ID id="4">
+<CATEGORY>PhishingAttack</CATEGORY>
+<OS>Windows XP</OS>
+<IP>192.168.1.106</IP>
+<PORT>8800</PORT>
+<SCRIPT>PhishingAttack.py</SCRIPT>
+</ID>
+<ID id="5">
+<CATEGORY>Ddos</CATEGORY>
+<OS>Windows XP</OS>
+<IP>192.168.1.106</IP>
+<PORT>502</PORT>
+<SCRIPT>Ddos-syn-flood.c</SCRIPT>
+</ID>
+<ID id="6">
+<CATEGORY>Ddos</CATEGORY>
+<OS>Windows XP</OS>
+<IP>192.168.1.106</IP>
+<PORT>53</PORT>
+<SCRIPT>Ddos-dns.c</SCRIPT>
+</ID>
+</Attacks>
+

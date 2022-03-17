@@ -1,0 +1,6 @@
+administrator:password
+cai:123
+root:secret
+guest:guest
+root:toor
+admin:12345

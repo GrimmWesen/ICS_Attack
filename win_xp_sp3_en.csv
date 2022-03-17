@@ -1,0 +1,743 @@
+Plugin ID,CVE,CVSS,Risk,Host,Protocol,Port,Name,Synopsis,Description,Solution,See Also,Plugin Output
+"10081","CVE-1999-0017","7.5","High","192.168.1.106","tcp","21","FTP Privileged Port Bounce Scan","The remote FTP server is vulnerable to a FTP server bounce attack.","It is possible to force the remote FTP server to connect to third
+parties using the PORT command. 
+
+The problem allows intruders to use your network resources to scan
+other hosts, making them think the attack comes from your network.","See the CERT advisory in the references for solutions and workarounds.","http://seclists.org/bugtraq/1995/Jul/46","The following command, telling the server to connect to 169.254.10.148 on port 10794:
+
+PORT 169,254,10,148,42,42
+
+produced the following output:
+
+200 Command okay
+"
+"10092","","","None","192.168.1.106","tcp","21","FTP Server Detection","An FTP server is listening on a remote port.","It is possible to obtain the banner of the remote FTP server by
+connecting to a remote port.","n/a","","
+The remote FTP banner is :
+
+220- Welcome to this Xitami FTP server, running version 2.5b4 of Xitami. 
+ You are user number 1 of a permitted 25 users. 
+  
+220 Xitami FTP 2.5b4 (c) 1991-2000 iMatix <http://www.imatix.com>
+"
+"10107","","","None","192.168.1.106","tcp","80","HTTP Server Type and Version","A web server is running on the remote host.","This plugin attempts to determine the type and the version of the
+  remote web server.","n/a","","The remote web server type is :
+
+Xitami"
+"10114","CVE-1999-0524","","None","192.168.1.106","icmp","0","ICMP Timestamp Request Remote Date Disclosure","It is possible to determine the exact time set on the remote host.","The remote host answers to an ICMP timestamp request.  This allows an
+attacker to know the date that is set on the targeted machine, which
+may assist an unauthenticated, remote attacker in defeating time-based
+authentication protocols.
+
+Timestamps returned from machines running Windows Vista / 7 / 2008 /
+2008 R2 are deliberately incorrect, but usually within 1000 seconds of
+the actual system time.","Filter out the ICMP timestamp requests (13), and the outgoing ICMP
+timestamp replies (14).","","The ICMP timestamps seem to be in little endian format (not in network format)
+The difference between the local and remote clocks is 1 second.
+"
+"10150","","","None","192.168.1.106","udp","137","Windows NetBIOS / SMB Remote Host Information Disclosure","It was possible to obtain the network name of the remote host.","The remote host is listening on UDP port 137 or TCP port 445, and
+replies to NetBIOS nbtscan or SMB requests.
+
+Note that this plugin gathers information to be used in other plugins,
+but does not itself generate a report.","n/a","","The following 4 NetBIOS names have been gathered :
+
+ 81493-97B2A6834  = Computer name
+ WORKGROUP        = Workgroup / Domain name
+ 81493-97B2A6834  = File Server Service
+ WORKGROUP        = Browser Service Elections
+
+The remote host has the following MAC address on its adapter :
+
+   00:0c:29:3b:89:37"
+"10287","","","None","192.168.1.106","udp","0","Traceroute Information","It was possible to obtain traceroute information.","Makes a traceroute to the remote host.","n/a","","For your information, here is the traceroute from 192.168.1.101 to 192.168.1.106 : 
+192.168.1.101
+192.168.1.106
+
+Hop Count: 1
+"
+"10394","","","None","192.168.1.106","tcp","445","Microsoft Windows SMB Log In Possible","It was possible to log into the remote host.","The remote host is running a Microsoft Windows operating system or
+Samba, a CIFS/SMB server for Unix. It was possible to log into it
+using one of the following accounts :
+
+- NULL session
+- Guest account
+- Supplied credentials","n/a","https://support.microsoft.com/kb/143474
+https://support.microsoft.com/kb/246261","- NULL sessions are enabled on the remote host.
+"
+"10785","","","None","192.168.1.106","tcp","445","Microsoft Windows SMB NativeLanManager Remote System Information Disclosure","It was possible to obtain information about the remote operating
+system.","Nessus was able to obtain the remote operating system name and version
+(Windows and/or Samba) by sending an authentication request to port
+139 or 445. Note that this plugin requires SMB1 to be enabled on the
+host.","n/a","","The remote Operating System is : Windows 5.1
+The remote native LAN manager is : Windows 2000 LAN Manager
+The remote SMB Domain Name is : 81493-97B2A6834
+"
+"10884","","","None","192.168.1.106","udp","123","Network Time Protocol (NTP) Server Detection","An NTP server is listening on the remote host.","An NTP server is listening on port 123. If not securely configured,
+it may provide information about its version, current date, current
+time, and possibly system information.","n/a","http://www.ntp.org","
+  An NTP service has been discovered, listening on port 123.
+
+  No sensitive information has been disclosed.
+
+  Version : unknown
+"
+"11011","","","None","192.168.1.106","tcp","445","Microsoft Windows SMB Service Detection","A file / print sharing service is listening on the remote host.","The remote service understands the CIFS (Common Internet File System)
+or Server Message Block (SMB) protocol, used to provide shared access
+to files, printers, etc between nodes on a network.","n/a","","
+A CIFS server is running on this port.
+"
+"11011","","","None","192.168.1.106","tcp","139","Microsoft Windows SMB Service Detection","A file / print sharing service is listening on the remote host.","The remote service understands the CIFS (Common Internet File System)
+or Server Message Block (SMB) protocol, used to provide shared access
+to files, printers, etc between nodes on a network.","n/a","","
+An SMB server is running on this port.
+"
+"11154","","","None","192.168.1.106","tcp","81","Unknown Service Detection: Banner Retrieval","There is an unknown service running on the remote host.","Nessus was unable to identify a service on the remote host even though
+it returned a banner of some type.","n/a","","
+If you know what this service is and think the banner could be used to
+identify it, please send a description of the service along with the
+following output to svc-signatures@nessus.org :
+
+  Port   : 81
+  Type   : get_http
+  Banner : 
+0x00:  45 52 52 4F 52 3A 20 4D 61 6C 66 6F 72 6D 65 64    ERROR: Malformed
+           0x10:  20 73 74 61 72 74 75 70 20 73 74 72 69 6E 67        startup string 
+           
+"
+"11219","","","None","192.168.1.106","tcp","139","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 139/tcp was found to be open"
+"11219","","","None","192.168.1.106","tcp","135","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 135/tcp was found to be open"
+"11219","","","None","192.168.1.106","tcp","80","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 80/tcp was found to be open"
+"11219","","","None","192.168.1.106","tcp","21","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 21/tcp was found to be open"
+"11219","","","None","192.168.1.106","tcp","445","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 445/tcp was found to be open"
+"11219","","","None","192.168.1.106","tcp","81","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 81/tcp was found to be open"
+"11936","","","None","192.168.1.106","tcp","0","OS Identification","It is possible to guess the remote operating system.","Using a combination of remote probes (e.g., TCP/IP, SMB, HTTP, NTP,
+SNMP, etc.), it is possible to guess the name of the remote operating
+system in use. It is also possible sometimes to guess the version of
+the operating system.","n/a","","
+Remote operating system : Microsoft Windows XP Service Pack 2
+Microsoft Windows XP Service Pack 3
+Windows XP for Embedded Systems
+Confidence level : 99
+Method : MSRPC
+
+Not all fingerprints could give a match. If you think some or all of
+the following could be used to identify the host's operating system,
+please email them to os-signatures@nessus.org. Be sure to include a
+brief description of the host itself, such as the actual operating
+system or product / model names.
+
+NTP:!:unknown
+SinFP:
+   P1:B11113:F0x12:W64240:O0204ffff:M1460:
+   P2:B11113:F0x12:W64240:O0204ffff010303000101080a000000000000000001010402:M1460:
+   P3:B11021:F0x04:W0:O0:M0
+   P4:70001_7_p=81
+HTTP:!:Server: Xitami
+
+
+ 
+The remote host is running one of these operating systems : 
+Microsoft Windows XP Service Pack 2
+Microsoft Windows XP Service Pack 3
+Windows XP for Embedded Systems"
+"12053","","","None","192.168.1.106","tcp","0","Host Fully Qualified Domain Name (FQDN) Resolution","It was possible to resolve the name of the remote host.","Nessus was able to resolve the fully qualified domain name (FQDN) of
+the remote host.","n/a","","
+192.168.1.106 resolves as promote.cache-dns.local.
+"
+"19506","","","None","192.168.1.106","tcp","0","Nessus Scan Information","This plugin displays information about the Nessus scan.","This plugin displays, for each tested host, information about the
+scan itself :
+
+  - The version of the plugin set.
+  - The type of scanner (Nessus or Nessus Home).
+  - The version of the Nessus Engine.
+  - The port scanner(s) used.
+  - The port range scanned.
+  - Whether credentialed or third-party patch management
+    checks are possible.
+  - The date of the scan.
+  - The duration of the scan.
+  - The number of hosts scanned in parallel.
+  - The number of checks done in parallel.","n/a","","Information about this scan : 
+
+Nessus version : 7.0.1
+Plugin feed version : 201803052015
+Scanner edition used : Nessus
+Scan type : Normal
+Scan policy used : Advanced Scan
+Scanner IP : 192.168.1.101
+Port scanner(s) : nessus_syn_scanner 
+Port range : default
+Thorough tests : no
+Experimental tests : no
+Paranoia level : 1
+Report verbosity : 1
+Safe checks : yes
+Optimize the test : yes
+Credentialed checks : no
+Patch management checks : None
+CGI scanning : disabled
+Web application tests : disabled
+Max hosts : 5
+Max checks : 5
+Recv timeout : 5
+Backports : None
+Allow post-scan editing: Yes
+Scan Start Date : 2018/3/7 12:46 
+Scan duration : 268 sec
+"
+"20094","","","None","192.168.1.106","tcp","0","VMware Virtual Machine Detection","The remote host is a VMware virtual machine.","According to the MAC address of its network adapter, the remote host
+is a VMware virtual machine.","Since it is physically accessible through the network, ensure that its
+configuration matches your organization's security policy.","","
+The remote host is a VMware virtual machine.
+"
+"22964","","","None","192.168.1.106","tcp","21","Service Detection","The remote service could be identified.","Nessus was able to identify the remote service by its banner or by
+looking at the error message it sends when it receives an HTTP
+request.","n/a","","An FTP server is running on this port."
+"22964","","","None","192.168.1.106","tcp","80","Service Detection","The remote service could be identified.","Nessus was able to identify the remote service by its banner or by
+looking at the error message it sends when it receives an HTTP
+request.","n/a","","A web server is running on this port."
+"24260","","","None","192.168.1.106","tcp","80","HyperText Transfer Protocol (HTTP) Information","Some information about the remote HTTP configuration can be extracted.","This test gives some information about the remote HTTP protocol - the
+version used, whether HTTP Keep-Alive and HTTP pipelining are enabled,
+etc... 
+
+This test is informational only and does not denote any security
+problem.","n/a","","
+Response Code : HTTP/1.1 200 Ok
+
+Protocol version : HTTP/1.1
+SSL : no
+Keep-Alive : no
+Options allowed : (Not implemented)
+Headers :
+
+  Server: Xitami
+  Date: Wed, 07 Mar 2018 04:49:55 GMT
+  Content-type: text/html
+  Content-length: 3
+  Last-modified: Tue, 06 Feb 2018 04:49:19 GMT
+  
+Response Body :
+
+www"
+"24786","","","None","192.168.1.106","tcp","0","Nessus Windows Scan Not Performed with Admin Privileges","The Nessus scan of this host may be incomplete due to insufficient
+privileges provided.","The Nessus scanner testing the remote host has been given SMB
+credentials to log into the remote host, however these credentials do
+not have administrative privileges. 
+
+Typically, when Nessus performs a patch audit, it logs into the remote
+host and reads the version of the DLLs on the remote host to determine
+if a given patch has been applied or not.  This is the method Microsoft
+recommends to determine if a patch has been applied. 
+
+If your Nessus scanner does not have administrative privileges when
+doing a scan, then Nessus has to fall back to perform a patch audit
+through the registry which may lead to false positives (especially when
+using third-party patch auditing tools) or to false negatives (not all
+patches can be detected through the registry).","Reconfigure your scanner to use credentials with administrative
+privileges.","","
+It was not possible to connect to '\\81493-97B2A6834\ADMIN$' with the supplied credentials.
+"
+"25220","","","None","192.168.1.106","tcp","0","TCP/IP Timestamps Supported","The remote service implements TCP timestamps.","The remote host implements TCP timestamps, as defined by RFC1323.  A
+side effect of this feature is that the uptime of the remote host can
+sometimes be computed.","n/a","http://www.ietf.org/rfc/rfc1323.txt",""
+"26917","","","None","192.168.1.106","tcp","445","Microsoft Windows SMB Registry : Nessus Cannot Access the Windows Registry","Nessus is not able to access the remote Windows Registry.","It was not possible to connect to PIPE\winreg on the remote host.
+
+If you intend to use Nessus to perform registry-based checks, the
+registry checks will not work because the 'Remote Registry Access'
+service (winreg) has been disabled on the remote host or can not be
+connected to with the supplied credentials.","n/a","","Could not connect to the registry because:
+Could not connect to \winreg"
+"26920","CVE-1999-0519","5.0","Medium","192.168.1.106","tcp","445","Microsoft Windows SMB NULL Session Authentication","It is possible to log into the remote Windows host with a NULL
+session.","The remote host is running Microsoft Windows. It is possible to log into it
+using a NULL session (i.e., with no login or password).
+
+Depending on the configuration, it may be possible for an unauthenticated,
+remote attacker to leverage this issue to get information about the remote
+host.","Apply the following registry changes per the referenced Technet 
+advisories :
+
+Set : 
+ - HKLM\SYSTEM\CurrentControlSet\Control\LSA\RestrictAnonymous=1
+ - HKLM\SYSTEM\CurrentControlSet\Services\lanmanserver\parameters\restrictnullsessaccess=1
+
+Remove BROWSER from :
+ - HKLM\SYSTEM\CurrentControlSet\Services\lanmanserver\parameters\NullSessionPipes
+
+Reboot once the registry changes are complete.","http://support.microsoft.com/kb/q143474/
+http://support.microsoft.com/kb/q246261/
+http://technet.microsoft.com/en-us/library/cc785969(WS.10).aspx","It was possible to bind to the \browser pipe"
+"26920","CVE-1999-0520","5.0","Medium","192.168.1.106","tcp","445","Microsoft Windows SMB NULL Session Authentication","It is possible to log into the remote Windows host with a NULL
+session.","The remote host is running Microsoft Windows. It is possible to log into it
+using a NULL session (i.e., with no login or password).
+
+Depending on the configuration, it may be possible for an unauthenticated,
+remote attacker to leverage this issue to get information about the remote
+host.","Apply the following registry changes per the referenced Technet 
+advisories :
+
+Set : 
+ - HKLM\SYSTEM\CurrentControlSet\Control\LSA\RestrictAnonymous=1
+ - HKLM\SYSTEM\CurrentControlSet\Services\lanmanserver\parameters\restrictnullsessaccess=1
+
+Remove BROWSER from :
+ - HKLM\SYSTEM\CurrentControlSet\Services\lanmanserver\parameters\NullSessionPipes
+
+Reboot once the registry changes are complete.","http://support.microsoft.com/kb/q143474/
+http://support.microsoft.com/kb/q246261/
+http://technet.microsoft.com/en-us/library/cc785969(WS.10).aspx","It was possible to bind to the \browser pipe"
+"26920","CVE-2002-1117","5.0","Medium","192.168.1.106","tcp","445","Microsoft Windows SMB NULL Session Authentication","It is possible to log into the remote Windows host with a NULL
+session.","The remote host is running Microsoft Windows. It is possible to log into it
+using a NULL session (i.e., with no login or password).
+
+Depending on the configuration, it may be possible for an unauthenticated,
+remote attacker to leverage this issue to get information about the remote
+host.","Apply the following registry changes per the referenced Technet 
+advisories :
+
+Set : 
+ - HKLM\SYSTEM\CurrentControlSet\Control\LSA\RestrictAnonymous=1
+ - HKLM\SYSTEM\CurrentControlSet\Services\lanmanserver\parameters\restrictnullsessaccess=1
+
+Remove BROWSER from :
+ - HKLM\SYSTEM\CurrentControlSet\Services\lanmanserver\parameters\NullSessionPipes
+
+Reboot once the registry changes are complete.","http://support.microsoft.com/kb/q143474/
+http://support.microsoft.com/kb/q246261/
+http://technet.microsoft.com/en-us/library/cc785969(WS.10).aspx","It was possible to bind to the \browser pipe"
+"34477","CVE-2008-4250","10.0","Critical","192.168.1.106","tcp","445","MS08-067: Microsoft Windows Server Service Crafted RPC Request Handling Remote Code Execution (958644) (ECLIPSEDWING) (uncredentialed check)","The remote Windows host is affected by a remote code execution
+vulnerability.","The remote Windows host is affected by a remote code execution
+vulnerability in the 'Server' service due to improper handling of RPC
+requests. An unauthenticated, remote attacker can exploit this, via a
+specially crafted RPC request, to execute arbitrary code with 'System'
+privileges.
+
+ECLIPSEDWING is one of multiple Equation Group vulnerabilities and
+exploits disclosed on 2017/04/14 by a group known as the Shadow
+Brokers.","Microsoft has released a set of patches for Windows 2000, XP, 2003,
+Vista and 2008.","http://technet.microsoft.com/en-us/security/bulletin/ms08-067",""
+"35362","CVE-2008-4834","10.0","Critical","192.168.1.106","tcp","445","MS09-001: Microsoft Windows SMB Vulnerabilities Remote Code Execution (958687) (uncredentialed check)","It is possible to crash the remote host due to a flaw in SMB.","The remote host is affected by a memory corruption vulnerability in
+SMB that may allow an attacker to execute arbitrary code or perform a
+denial of service against the remote host.","Microsoft has released a set of patches for Windows 2000, XP, 2003,
+Vista and 2008.","http://www.microsoft.com/technet/security/bulletin/ms09-001.mspx",""
+"35362","CVE-2008-4835","10.0","Critical","192.168.1.106","tcp","445","MS09-001: Microsoft Windows SMB Vulnerabilities Remote Code Execution (958687) (uncredentialed check)","It is possible to crash the remote host due to a flaw in SMB.","The remote host is affected by a memory corruption vulnerability in
+SMB that may allow an attacker to execute arbitrary code or perform a
+denial of service against the remote host.","Microsoft has released a set of patches for Windows 2000, XP, 2003,
+Vista and 2008.","http://www.microsoft.com/technet/security/bulletin/ms09-001.mspx",""
+"35362","CVE-2008-4114","10.0","Critical","192.168.1.106","tcp","445","MS09-001: Microsoft Windows SMB Vulnerabilities Remote Code Execution (958687) (uncredentialed check)","It is possible to crash the remote host due to a flaw in SMB.","The remote host is affected by a memory corruption vulnerability in
+SMB that may allow an attacker to execute arbitrary code or perform a
+denial of service against the remote host.","Microsoft has released a set of patches for Windows 2000, XP, 2003,
+Vista and 2008.","http://www.microsoft.com/technet/security/bulletin/ms09-001.mspx",""
+"35716","","","None","192.168.1.106","tcp","0","Ethernet Card Manufacturer Detection","The manufacturer can be identified from the Ethernet OUI.","Each ethernet MAC address starts with a 24-bit Organizationally 
+Unique Identifier (OUI). These OUIs are registered by IEEE.","n/a","http://standards.ieee.org/faqs/regauth.html
+http://www.nessus.org/u?794673b4","
+The following card manufacturers were identified :
+
+00:0c:29:3b:89:37 : VMware, Inc.
+9c:da:3e:93:b0:16 : Intel Corporate
+"
+"45590","","","None","192.168.1.106","tcp","0","Common Platform Enumeration (CPE)","It was possible to enumerate CPE names that matched on the remote
+system.","By using information obtained from a Nessus scan, this plugin reports
+CPE (Common Platform Enumeration) matches for various hardware and
+software products found on a host. 
+
+Note that if an official CPE is not available for the product, this
+plugin computes the best possible CPE based on the information
+available from the scan.","n/a","http://cpe.mitre.org/
+https://nvd.nist.gov/products/cpe","
+The remote operating system matched the following CPE's : 
+
+  cpe:/o:microsoft:windows_xp::sp2 -> Microsoft Windows XP Service Pack 2
+  cpe:/o:microsoft:windows_xp::sp3 -> Microsoft Windows XP Service Pack 3
+  cpe:/o:microsoft:windows
+"
+"46215","","","None","192.168.1.106","tcp","0","Inconsistent Hostname and IP Address","The remote host's hostname is not consistent with DNS information.","The name of this machine either does not resolve or resolves to a
+different IP address. 
+
+This may come from a badly configured reverse DNS or from a host file
+in use on the Nessus scanning host. 
+
+As a result, URLs in plugin output may not be directly usable in a web
+browser and some web tests may be incomplete.","Fix the reverse DNS or host file.","","The host name 'promote.cache-dns.local' does not resolve to an IP address"
+"54615","","","None","192.168.1.106","tcp","0","Device Type","It is possible to guess the remote device type.","Based on the remote operating system, it is possible to determine
+what the remote system type is (eg: a printer, router, general-purpose
+computer, etc).","n/a","","Remote device type : general-purpose
+Confidence level : 99
+"
+"57608","","5.0","Medium","192.168.1.106","tcp","445","SMB Signing Disabled","Signing is not required on the remote SMB server.","Signing is not required on the remote SMB server. An unauthenticated,
+remote attacker can exploit this to conduct man-in-the-middle attacks
+against the SMB server.","Enforce message signing in the host's configuration. On Windows, this
+is found in the policy setting 'Microsoft network server: Digitally
+sign communications (always)'. On Samba, the setting is called 'server
+signing'. See the 'see also' links for further details.","https://support.microsoft.com/en-us/kb/887429
+http://technet.microsoft.com/en-us/library/cc731957.aspx
+http://www.nessus.org/u?74b80723
+http://www.samba.org/samba/docs/man/manpages-3/smb.conf.5.html
+http://www.nessus.org/u?a3cac4ea",""
+"73182","","10.0","Critical","192.168.1.106","tcp","0","Microsoft Windows XP Unsupported Installation Detection","The remote operating system is no longer supported.","The remote host is running Microsoft Windows XP. Support for this
+operating system by Microsoft ended April 8th, 2014.
+
+Lack of support implies that no new security patches for the product
+will be released by the vendor. As a result, it is likely to contain
+security vulnerabilities. Furthermore, Microsoft is unlikely to
+investigate or acknowledge reports of vulnerabilities.","Upgrade to a version of Windows that is currently supported.","http://www.nessus.org/u?33ca6af0
+http://www.nessus.org/u?321523eb
+https://blogs.technet.microsoft.com/filecab/2016/09/16/stop-using-smb1/
+http://www.nessus.org/u?8dcab5e4",""
+"96982","","","None","192.168.1.106","tcp","445","Server Message Block (SMB) Protocol Version 1 Enabled (uncredentialed check)","The remote Windows host supports the SMBv1 protocol.","The remote Windows host supports Server Message Block Protocol
+version 1 (SMBv1). Microsoft recommends that users discontinue the use
+of SMBv1 due to the lack of security features that were included in
+later SMB versions. Additionally, the Shadow Brokers group reportedly
+has an exploit that affects SMB; however, it is unknown if the exploit
+affects SMBv1 or another version. In response to this, US-CERT
+recommends that users disable SMBv1 per SMB best practices to mitigate
+these potential issues.","Disable SMBv1 according to the vendor instructions in Microsoft
+KB2696547. Additionally, block SMB directly by blocking TCP port 445
+on all network boundary devices. For SMB over the NetBIOS API, block
+TCP ports 137 / 139 and UDP ports 137 / 138 on all network boundary
+devices.","https://blogs.technet.microsoft.com/filecab/2016/09/16/stop-using-smb1/
+https://support.microsoft.com/en-us/kb/2696547
+http://www.nessus.org/u?8dcab5e4
+http://www.nessus.org/u?36fd3072
+http://www.nessus.org/u?4c7e0cf3","
+The remote host supports SMBv1.
+"
+"97833","CVE-2017-0143","10.0","Critical","192.168.1.106","tcp","445","MS17-010: Security Update for Microsoft Windows SMB Server (4013389) (ETERNALBLUE) (ETERNALCHAMPION) (ETERNALROMANCE) (ETERNALSYNERGY) (WannaCry) (EternalRocks) (Petya) (uncredentialed check)","The remote Windows host is affected by multiple vulnerabilities.","The remote Windows host is affected by the following vulnerabilities :
+
+  - Multiple remote code execution vulnerabilities exist in
+    Microsoft Server Message Block 1.0 (SMBv1) due to
+    improper handling of certain requests. An
+    unauthenticated, remote attacker can exploit these
+    vulnerabilities, via a specially crafted packet, to
+    execute arbitrary code. (CVE-2017-0143, CVE-2017-0144,
+    CVE-2017-0145, CVE-2017-0146, CVE-2017-0148)
+
+  - An information disclosure vulnerability exists in
+    Microsoft Server Message Block 1.0 (SMBv1) due to
+    improper handling of certain requests. An
+    unauthenticated, remote attacker can exploit this, via a
+    specially crafted packet, to disclose sensitive
+    information. (CVE-2017-0147)
+
+ETERNALBLUE, ETERNALCHAMPION, ETERNALROMANCE, and ETERNALSYNERGY are
+four of multiple Equation Group vulnerabilities and exploits disclosed
+on 2017/04/14 by a group known as the Shadow Brokers. WannaCry /
+WannaCrypt is a ransomware program utilizing the ETERNALBLUE exploit,
+and EternalRocks is a worm that utilizes seven Equation Group
+vulnerabilities. Petya is a ransomware program that first utilizes
+CVE-2017-0199, a vulnerability in Microsoft Office, and then spreads
+via ETERNALBLUE.","Microsoft has released a set of patches for Windows Vista, 2008, 7,
+2008 R2, 2012, 8.1, RT 8.1, 2012 R2, 10, and 2016. Microsoft has also
+released emergency patches for Windows operating systems that are no
+longer supported, including Windows XP, 2003, and 8.
+
+For unsupported Windows operating systems, e.g. Windows XP, Microsoft
+recommends that users discontinue the use of SMBv1. SMBv1 lacks
+security features that were included in later SMB versions. SMBv1 can
+be disabled by following the vendor instructions provided in Microsoft
+KB2696547. Additionally, US-CERT recommends that users block SMB
+directly by blocking TCP port 445 on all network boundary devices. For
+SMB over the NetBIOS API, block TCP ports 137 / 139 and UDP ports 137
+/ 138 on all network boundary devices.","https://technet.microsoft.com/library/security/MS17-010
+http://www.nessus.org/u?321523eb
+http://www.nessus.org/u?7bec1941
+http://www.nessus.org/u?d9f569cf
+https://blogs.technet.microsoft.com/filecab/2016/09/16/stop-using-smb1/
+https://support.microsoft.com/en-us/kb/2696547
+http://www.nessus.org/u?8dcab5e4
+http://www.nessus.org/u?36fd3072
+http://www.nessus.org/u?4c7e0cf3
+https://github.com/stamparm/EternalRocks/
+http://www.nessus.org/u?59db5b5b",""
+"97833","CVE-2017-0144","10.0","Critical","192.168.1.106","tcp","445","MS17-010: Security Update for Microsoft Windows SMB Server (4013389) (ETERNALBLUE) (ETERNALCHAMPION) (ETERNALROMANCE) (ETERNALSYNERGY) (WannaCry) (EternalRocks) (Petya) (uncredentialed check)","The remote Windows host is affected by multiple vulnerabilities.","The remote Windows host is affected by the following vulnerabilities :
+
+  - Multiple remote code execution vulnerabilities exist in
+    Microsoft Server Message Block 1.0 (SMBv1) due to
+    improper handling of certain requests. An
+    unauthenticated, remote attacker can exploit these
+    vulnerabilities, via a specially crafted packet, to
+    execute arbitrary code. (CVE-2017-0143, CVE-2017-0144,
+    CVE-2017-0145, CVE-2017-0146, CVE-2017-0148)
+
+  - An information disclosure vulnerability exists in
+    Microsoft Server Message Block 1.0 (SMBv1) due to
+    improper handling of certain requests. An
+    unauthenticated, remote attacker can exploit this, via a
+    specially crafted packet, to disclose sensitive
+    information. (CVE-2017-0147)
+
+ETERNALBLUE, ETERNALCHAMPION, ETERNALROMANCE, and ETERNALSYNERGY are
+four of multiple Equation Group vulnerabilities and exploits disclosed
+on 2017/04/14 by a group known as the Shadow Brokers. WannaCry /
+WannaCrypt is a ransomware program utilizing the ETERNALBLUE exploit,
+and EternalRocks is a worm that utilizes seven Equation Group
+vulnerabilities. Petya is a ransomware program that first utilizes
+CVE-2017-0199, a vulnerability in Microsoft Office, and then spreads
+via ETERNALBLUE.","Microsoft has released a set of patches for Windows Vista, 2008, 7,
+2008 R2, 2012, 8.1, RT 8.1, 2012 R2, 10, and 2016. Microsoft has also
+released emergency patches for Windows operating systems that are no
+longer supported, including Windows XP, 2003, and 8.
+
+For unsupported Windows operating systems, e.g. Windows XP, Microsoft
+recommends that users discontinue the use of SMBv1. SMBv1 lacks
+security features that were included in later SMB versions. SMBv1 can
+be disabled by following the vendor instructions provided in Microsoft
+KB2696547. Additionally, US-CERT recommends that users block SMB
+directly by blocking TCP port 445 on all network boundary devices. For
+SMB over the NetBIOS API, block TCP ports 137 / 139 and UDP ports 137
+/ 138 on all network boundary devices.","https://technet.microsoft.com/library/security/MS17-010
+http://www.nessus.org/u?321523eb
+http://www.nessus.org/u?7bec1941
+http://www.nessus.org/u?d9f569cf
+https://blogs.technet.microsoft.com/filecab/2016/09/16/stop-using-smb1/
+https://support.microsoft.com/en-us/kb/2696547
+http://www.nessus.org/u?8dcab5e4
+http://www.nessus.org/u?36fd3072
+http://www.nessus.org/u?4c7e0cf3
+https://github.com/stamparm/EternalRocks/
+http://www.nessus.org/u?59db5b5b",""
+"97833","CVE-2017-0145","10.0","Critical","192.168.1.106","tcp","445","MS17-010: Security Update for Microsoft Windows SMB Server (4013389) (ETERNALBLUE) (ETERNALCHAMPION) (ETERNALROMANCE) (ETERNALSYNERGY) (WannaCry) (EternalRocks) (Petya) (uncredentialed check)","The remote Windows host is affected by multiple vulnerabilities.","The remote Windows host is affected by the following vulnerabilities :
+
+  - Multiple remote code execution vulnerabilities exist in
+    Microsoft Server Message Block 1.0 (SMBv1) due to
+    improper handling of certain requests. An
+    unauthenticated, remote attacker can exploit these
+    vulnerabilities, via a specially crafted packet, to
+    execute arbitrary code. (CVE-2017-0143, CVE-2017-0144,
+    CVE-2017-0145, CVE-2017-0146, CVE-2017-0148)
+
+  - An information disclosure vulnerability exists in
+    Microsoft Server Message Block 1.0 (SMBv1) due to
+    improper handling of certain requests. An
+    unauthenticated, remote attacker can exploit this, via a
+    specially crafted packet, to disclose sensitive
+    information. (CVE-2017-0147)
+
+ETERNALBLUE, ETERNALCHAMPION, ETERNALROMANCE, and ETERNALSYNERGY are
+four of multiple Equation Group vulnerabilities and exploits disclosed
+on 2017/04/14 by a group known as the Shadow Brokers. WannaCry /
+WannaCrypt is a ransomware program utilizing the ETERNALBLUE exploit,
+and EternalRocks is a worm that utilizes seven Equation Group
+vulnerabilities. Petya is a ransomware program that first utilizes
+CVE-2017-0199, a vulnerability in Microsoft Office, and then spreads
+via ETERNALBLUE.","Microsoft has released a set of patches for Windows Vista, 2008, 7,
+2008 R2, 2012, 8.1, RT 8.1, 2012 R2, 10, and 2016. Microsoft has also
+released emergency patches for Windows operating systems that are no
+longer supported, including Windows XP, 2003, and 8.
+
+For unsupported Windows operating systems, e.g. Windows XP, Microsoft
+recommends that users discontinue the use of SMBv1. SMBv1 lacks
+security features that were included in later SMB versions. SMBv1 can
+be disabled by following the vendor instructions provided in Microsoft
+KB2696547. Additionally, US-CERT recommends that users block SMB
+directly by blocking TCP port 445 on all network boundary devices. For
+SMB over the NetBIOS API, block TCP ports 137 / 139 and UDP ports 137
+/ 138 on all network boundary devices.","https://technet.microsoft.com/library/security/MS17-010
+http://www.nessus.org/u?321523eb
+http://www.nessus.org/u?7bec1941
+http://www.nessus.org/u?d9f569cf
+https://blogs.technet.microsoft.com/filecab/2016/09/16/stop-using-smb1/
+https://support.microsoft.com/en-us/kb/2696547
+http://www.nessus.org/u?8dcab5e4
+http://www.nessus.org/u?36fd3072
+http://www.nessus.org/u?4c7e0cf3
+https://github.com/stamparm/EternalRocks/
+http://www.nessus.org/u?59db5b5b",""
+"97833","CVE-2017-0146","10.0","Critical","192.168.1.106","tcp","445","MS17-010: Security Update for Microsoft Windows SMB Server (4013389) (ETERNALBLUE) (ETERNALCHAMPION) (ETERNALROMANCE) (ETERNALSYNERGY) (WannaCry) (EternalRocks) (Petya) (uncredentialed check)","The remote Windows host is affected by multiple vulnerabilities.","The remote Windows host is affected by the following vulnerabilities :
+
+  - Multiple remote code execution vulnerabilities exist in
+    Microsoft Server Message Block 1.0 (SMBv1) due to
+    improper handling of certain requests. An
+    unauthenticated, remote attacker can exploit these
+    vulnerabilities, via a specially crafted packet, to
+    execute arbitrary code. (CVE-2017-0143, CVE-2017-0144,
+    CVE-2017-0145, CVE-2017-0146, CVE-2017-0148)
+
+  - An information disclosure vulnerability exists in
+    Microsoft Server Message Block 1.0 (SMBv1) due to
+    improper handling of certain requests. An
+    unauthenticated, remote attacker can exploit this, via a
+    specially crafted packet, to disclose sensitive
+    information. (CVE-2017-0147)
+
+ETERNALBLUE, ETERNALCHAMPION, ETERNALROMANCE, and ETERNALSYNERGY are
+four of multiple Equation Group vulnerabilities and exploits disclosed
+on 2017/04/14 by a group known as the Shadow Brokers. WannaCry /
+WannaCrypt is a ransomware program utilizing the ETERNALBLUE exploit,
+and EternalRocks is a worm that utilizes seven Equation Group
+vulnerabilities. Petya is a ransomware program that first utilizes
+CVE-2017-0199, a vulnerability in Microsoft Office, and then spreads
+via ETERNALBLUE.","Microsoft has released a set of patches for Windows Vista, 2008, 7,
+2008 R2, 2012, 8.1, RT 8.1, 2012 R2, 10, and 2016. Microsoft has also
+released emergency patches for Windows operating systems that are no
+longer supported, including Windows XP, 2003, and 8.
+
+For unsupported Windows operating systems, e.g. Windows XP, Microsoft
+recommends that users discontinue the use of SMBv1. SMBv1 lacks
+security features that were included in later SMB versions. SMBv1 can
+be disabled by following the vendor instructions provided in Microsoft
+KB2696547. Additionally, US-CERT recommends that users block SMB
+directly by blocking TCP port 445 on all network boundary devices. For
+SMB over the NetBIOS API, block TCP ports 137 / 139 and UDP ports 137
+/ 138 on all network boundary devices.","https://technet.microsoft.com/library/security/MS17-010
+http://www.nessus.org/u?321523eb
+http://www.nessus.org/u?7bec1941
+http://www.nessus.org/u?d9f569cf
+https://blogs.technet.microsoft.com/filecab/2016/09/16/stop-using-smb1/
+https://support.microsoft.com/en-us/kb/2696547
+http://www.nessus.org/u?8dcab5e4
+http://www.nessus.org/u?36fd3072
+http://www.nessus.org/u?4c7e0cf3
+https://github.com/stamparm/EternalRocks/
+http://www.nessus.org/u?59db5b5b",""
+"97833","CVE-2017-0147","10.0","Critical","192.168.1.106","tcp","445","MS17-010: Security Update for Microsoft Windows SMB Server (4013389) (ETERNALBLUE) (ETERNALCHAMPION) (ETERNALROMANCE) (ETERNALSYNERGY) (WannaCry) (EternalRocks) (Petya) (uncredentialed check)","The remote Windows host is affected by multiple vulnerabilities.","The remote Windows host is affected by the following vulnerabilities :
+
+  - Multiple remote code execution vulnerabilities exist in
+    Microsoft Server Message Block 1.0 (SMBv1) due to
+    improper handling of certain requests. An
+    unauthenticated, remote attacker can exploit these
+    vulnerabilities, via a specially crafted packet, to
+    execute arbitrary code. (CVE-2017-0143, CVE-2017-0144,
+    CVE-2017-0145, CVE-2017-0146, CVE-2017-0148)
+
+  - An information disclosure vulnerability exists in
+    Microsoft Server Message Block 1.0 (SMBv1) due to
+    improper handling of certain requests. An
+    unauthenticated, remote attacker can exploit this, via a
+    specially crafted packet, to disclose sensitive
+    information. (CVE-2017-0147)
+
+ETERNALBLUE, ETERNALCHAMPION, ETERNALROMANCE, and ETERNALSYNERGY are
+four of multiple Equation Group vulnerabilities and exploits disclosed
+on 2017/04/14 by a group known as the Shadow Brokers. WannaCry /
+WannaCrypt is a ransomware program utilizing the ETERNALBLUE exploit,
+and EternalRocks is a worm that utilizes seven Equation Group
+vulnerabilities. Petya is a ransomware program that first utilizes
+CVE-2017-0199, a vulnerability in Microsoft Office, and then spreads
+via ETERNALBLUE.","Microsoft has released a set of patches for Windows Vista, 2008, 7,
+2008 R2, 2012, 8.1, RT 8.1, 2012 R2, 10, and 2016. Microsoft has also
+released emergency patches for Windows operating systems that are no
+longer supported, including Windows XP, 2003, and 8.
+
+For unsupported Windows operating systems, e.g. Windows XP, Microsoft
+recommends that users discontinue the use of SMBv1. SMBv1 lacks
+security features that were included in later SMB versions. SMBv1 can
+be disabled by following the vendor instructions provided in Microsoft
+KB2696547. Additionally, US-CERT recommends that users block SMB
+directly by blocking TCP port 445 on all network boundary devices. For
+SMB over the NetBIOS API, block TCP ports 137 / 139 and UDP ports 137
+/ 138 on all network boundary devices.","https://technet.microsoft.com/library/security/MS17-010
+http://www.nessus.org/u?321523eb
+http://www.nessus.org/u?7bec1941
+http://www.nessus.org/u?d9f569cf
+https://blogs.technet.microsoft.com/filecab/2016/09/16/stop-using-smb1/
+https://support.microsoft.com/en-us/kb/2696547
+http://www.nessus.org/u?8dcab5e4
+http://www.nessus.org/u?36fd3072
+http://www.nessus.org/u?4c7e0cf3
+https://github.com/stamparm/EternalRocks/
+http://www.nessus.org/u?59db5b5b",""
+"97833","CVE-2017-0148","10.0","Critical","192.168.1.106","tcp","445","MS17-010: Security Update for Microsoft Windows SMB Server (4013389) (ETERNALBLUE) (ETERNALCHAMPION) (ETERNALROMANCE) (ETERNALSYNERGY) (WannaCry) (EternalRocks) (Petya) (uncredentialed check)","The remote Windows host is affected by multiple vulnerabilities.","The remote Windows host is affected by the following vulnerabilities :
+
+  - Multiple remote code execution vulnerabilities exist in
+    Microsoft Server Message Block 1.0 (SMBv1) due to
+    improper handling of certain requests. An
+    unauthenticated, remote attacker can exploit these
+    vulnerabilities, via a specially crafted packet, to
+    execute arbitrary code. (CVE-2017-0143, CVE-2017-0144,
+    CVE-2017-0145, CVE-2017-0146, CVE-2017-0148)
+
+  - An information disclosure vulnerability exists in
+    Microsoft Server Message Block 1.0 (SMBv1) due to
+    improper handling of certain requests. An
+    unauthenticated, remote attacker can exploit this, via a
+    specially crafted packet, to disclose sensitive
+    information. (CVE-2017-0147)
+
+ETERNALBLUE, ETERNALCHAMPION, ETERNALROMANCE, and ETERNALSYNERGY are
+four of multiple Equation Group vulnerabilities and exploits disclosed
+on 2017/04/14 by a group known as the Shadow Brokers. WannaCry /
+WannaCrypt is a ransomware program utilizing the ETERNALBLUE exploit,
+and EternalRocks is a worm that utilizes seven Equation Group
+vulnerabilities. Petya is a ransomware program that first utilizes
+CVE-2017-0199, a vulnerability in Microsoft Office, and then spreads
+via ETERNALBLUE.","Microsoft has released a set of patches for Windows Vista, 2008, 7,
+2008 R2, 2012, 8.1, RT 8.1, 2012 R2, 10, and 2016. Microsoft has also
+released emergency patches for Windows operating systems that are no
+longer supported, including Windows XP, 2003, and 8.
+
+For unsupported Windows operating systems, e.g. Windows XP, Microsoft
+recommends that users discontinue the use of SMBv1. SMBv1 lacks
+security features that were included in later SMB versions. SMBv1 can
+be disabled by following the vendor instructions provided in Microsoft
+KB2696547. Additionally, US-CERT recommends that users block SMB
+directly by blocking TCP port 445 on all network boundary devices. For
+SMB over the NetBIOS API, block TCP ports 137 / 139 and UDP ports 137
+/ 138 on all network boundary devices.","https://technet.microsoft.com/library/security/MS17-010
+http://www.nessus.org/u?321523eb
+http://www.nessus.org/u?7bec1941
+http://www.nessus.org/u?d9f569cf
+https://blogs.technet.microsoft.com/filecab/2016/09/16/stop-using-smb1/
+https://support.microsoft.com/en-us/kb/2696547
+http://www.nessus.org/u?8dcab5e4
+http://www.nessus.org/u?36fd3072
+http://www.nessus.org/u?4c7e0cf3
+https://github.com/stamparm/EternalRocks/
+http://www.nessus.org/u?59db5b5b",""
+"100871","","","None","192.168.1.106","tcp","445","Microsoft Windows SMB Versions Supported (remote check)","It was possible to obtain information about the version of SMB running
+on the remote host.","Nessus was able to obtain the version of SMB running on the remote
+host by sending an authentication request to port 139 or 445.
+
+Note that this plugin is a remote check and does not work on agents.","n/a","","
+The remote host supports the following versions of SMB :
+  SMBv1
+"
+"106716","","","None","192.168.1.106","tcp","445","Microsoft Windows SMB2 Dialects Supported (remote check)","It was possible to obtain information about the dialects of SMB2 available
+on the remote host.","Nessus was able to obtain the set of SMB2 dialects running on the remote
+host by sending an authentication request to port 139 or 445.","n/a","","
+The remote host does NOT support the following SMB dialects :
+	_version_  _introduced in windows version_
+	2.0.2      Windows 2008  
+	2.1        Windows 7     
+	2.2.2      Windows 8 Beta
+	2.2.4      Windows 8 Beta
+	3.0        Windows 8     
+	3.0.2      Windows 8.1   
+	3.1        Windows 10    
+	3.1.1      Windows 10    
+"
