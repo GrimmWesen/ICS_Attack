@@ -5,4 +5,4 @@
 - 另Ddos攻击主要利用C进行套接字编程，需要运行环境有cpp支持。
 
 
-以上提交代买均在Kali 2018.4 以及windows xp professional sp3 测试运行无误。
+以上提交均在Kali 2018.4 以及windows xp professional sp3 测试运行无误。
